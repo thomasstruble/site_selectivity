@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% from 'macros.html' import chemdraw, error_message, warning_message %}
+
+{% block title %}
+    <h1>Predict</h1>
+{% endblock %}
+
+{% block content %}
+
+    <hr>
+
+    <h3>Predict</h3>
+
+
+    <form enctype="multipart/form-data" method="POST">
+        <!--SMILES upload type selector-->
+        <div class="btn-group" id="inputSelect" data-toggle="buttons">
+            <label id="textButton" class="btn btn-primary active">
+              <input type="radio" name="inputType" value="text" autocomplete="off"> Text Input
+            </label>
+            <label id="drawButton" class="btn btn-primary">
+              <input type="radio" name="inputType" value="file" autocomplete="off"> Draw Molecule
+            </label>
+        </div>
+
+        <br>
+
+        <!--SMILES input-->
+        <div id="textInputForm">
+            <h5>SMILES</h5>
+            <textarea id="textSmilesInput" name="textSmiles" cols="100" rows="1" placeholder="SMILES" required></textarea>
+        </div>
+        <div id="drawInputForm" style="display:none">
+            <h5>Draw a molecule</h5>
+            {{ chemdraw() }}
+            <br>
+            <button type="button" id="convertToSmiles" class="btn btn-primary btn-xs">Convert to SMILES</button>
+            <input id="drawSmilesInput" name="drawSmiles" placeholder="SMILES">
+        </div>
+
+        <br>
+
+        <!--SMILES input-->
+        <script>
+            $(document).ready(function() {
+                $(document).ready(function() {
+                    $("#textButton").click(function() {
+                        $("#textInputForm").show();
+                        $("#textSmilesInput").prop('required', true);
+                        $("#drawInputForm").hide();
+                        $("#drawSmilesInput").prop('required', false);
+                        $("#drawSmilesInput").val('');
+                    });
+                    $("#drawButton").click(function() {
+                        $("#textInputForm").hide();
+                        $("#textSmilesInput").prop('required', false);
+                        $("#textSmilesInput").val('');
+                        $("#fileInputForm").hide();
+                        $("#fileSmilesInput").prop('required', false);
+                        $("#drawInputForm").show();
+                        $("#drawSmilesInput").prop('required', true);
+                    });
+                });
+
+                $("#convertToSmiles").click(function() {
+                    $("#drawSmilesInput").val(jsmeApplet.smiles());
+                });
+            });
+        </script>
+
+        <button type="submit" class="btn btn-primary btn-md">Predict</button>
+    </form>
+
+
+    <br>
+    
+    {% if warnings %}
+        {% for warning in warnings %}
+            {{ warning_message(warning) }}
+        {% endfor %}
+    {% endif %}
+
+    {% if errors %}
+        {% for error in errors %}
+            {{ error_message(error) }}
+        {% endfor %}
+    {% endif %}
+
+    {% if predicted %}
+    <table class="table table-nonfluid table_outcomes">
+        <tr>
+            <th><center>Reactant</center></th>
+            <th><center>Sites</center></th>
+        </tr>
+        {% for res in preds %}
+            <tr>
+                <td>
+                    <center>
+                        <object type="image/svg+xml" data="{{url_for('draw', smiles=res.task)}}"></object>
+                    </center>
+                </td>
+                <td>
+                    <center>
+                        <object type="image/svg+xml" data="{{url_for('draw', smiles=res.smiles, atom_scores=res.atom_scores, bonds='false')}}"></object>
+                    </center>
+                </td>
+            </tr>
+        {% endfor %}   
+         </table>
+    {% endif %}
+{% endblock %}
