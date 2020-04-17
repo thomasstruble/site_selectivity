@@ -1,0 +1,8 @@
+version: '2'
+services:
+  sites_app:
+    image: sites
+    hostname: sites_app
+    command: bash -c "source activate sites && python web/run.py --host 0.0.0.0"
+    ports:
+      - "5000:5000"
