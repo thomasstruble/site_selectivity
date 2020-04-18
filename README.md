@@ -23,11 +23,11 @@ To run the web GUI there are two options:\n
 If you are running the default, direct your web browser to localhost:5000 to access the GUI.
 
 ## Setting up environment using conda
-```conda create -n sites python=2.7 && conda activate sites```
+```conda create -n sites python=3.7 && conda activate sites```
 
 OR
 
-```conda create -n sites python=2.7 && source activate sites```
+```conda create -n sites python=3.7 && source activate sites```
 
 Then install dependencies
 
@@ -40,6 +40,8 @@ If installing requirements manually, be sure that the version of tensorflow is 1
 You can run predictions from a web GUI. To start it run:
 
 ```python web/run.py --host <IP of host> --port <port>```
+
+The default host is localhost and the default port is 5000.
 
 ## Command line deployment
 Run a prediction and output to the terminal. In home folder run (predictions here for toluene):
