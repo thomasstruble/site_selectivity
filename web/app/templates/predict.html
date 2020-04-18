@@ -96,12 +96,12 @@
             <tr>
                 <td>
                     <center>
-                        <object type="image/svg+xml" data="{{url_for('draw', smiles=res.task)}}"></object>
+                        <object type="image/svg+xml" loading="lazy" data="{{url_for('draw', smiles=res.task)}}"></object>
                     </center>
                 </td>
                 <td>
                     <center>
-                        <object type="image/svg+xml" data="{{url_for('draw', smiles=res.smiles, atom_scores=res.atom_scores, bonds='false')}}"></object>
+                        <object type="image/svg+xml" loading="lazy" data="{{url_for('draw', smiles=res.smiles, atom_scores=res.atom_scores, bonds='false')}}"></object>
                     </center>
                 </td>
             </tr>
