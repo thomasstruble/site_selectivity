@@ -34,7 +34,7 @@ Then install dependencies
 ```conda install -n sites -c rdkit rdkit && conda install -n sites pip```
 ```pip install -r requirements.txt```
 
-If installing requirements manually, be sure that the version of tensorflow is 1.14. Newer versions enable eager execution by default and the code will not run.
+If installing requirements manually, be sure that the version of tensorflow is 1.1x. Newer versions enable eager execution by default and the code will not run.
 
 ## Webapp deployment
 You can run predictions from a web GUI. To start it run:
